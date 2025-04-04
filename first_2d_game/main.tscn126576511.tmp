@@ -1,11 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://bfh7lmhpbm8eg"]
+[gd_scene load_steps=5 format=3 uid="uid://bfh7lmhpbm8eg"]
 
 [ext_resource type="Script" uid="uid://bpucnwtt1kjac" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://bub5evxr6i7uk" path="res://player.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://dpi47xgws8b5r" path="res://mob.tscn" id="2_h2yge"]
-[ext_resource type="PackedScene" uid="uid://cx8x3uyshhx6t" path="res://hud.tscn" id="4_1bvp3"]
-
-[sub_resource type="AudioStreamWAV" id="AudioStreamWAV_1bvp3"]
 
 [sub_resource type="Curve2D" id="Curve2D_0xm2m"]
 _data = {
@@ -13,20 +10,9 @@ _data = {
 }
 point_count = 5
 
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1bvp3"]
-
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0xm2m")
 mob_scene = ExtResource("2_h2yge")
-
-[node name="Music" type="AudioStreamPlayer2D" parent="."]
-stream = SubResource("AudioStreamWAV_1bvp3")
-autoplay = true
-
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_right = 480.0
-offset_bottom = 720.0
-color = Color(0.575216, 0.958082, 0.982686, 1)
 
 [node name="Player" parent="." instance=ExtResource("1_ig7tw")]
 
@@ -49,14 +35,8 @@ curve = SubResource("Curve2D_0xm2m")
 
 [node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
 
-[node name="HUD" parent="." instance=ExtResource("4_1bvp3")]
-
-[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
-stream = SubResource("AudioStreamRandomizer_1bvp3")
-
 [connection signal="hit" from="Player" to="." method="_on_player_hit"]
 [connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
-[connection signal="start_game" from="HUD" to="." method="new_game"]
